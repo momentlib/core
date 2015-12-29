@@ -9,6 +9,9 @@ Natural Language Date/Time parser written in Lex, Yacc and C.
 Run ./testParser.exe to try it out. 
 
 
+If you want to use the library in XCode you can run the script buildFatLibIOS.sh
+This will build a fat library containing the library for ISO and for Simulator.  Currently only set for 9.2 sdk.  
+
 <pre>
 To use it:
 Add the library and TimeParser.h to your project

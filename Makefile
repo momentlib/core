@@ -1,14 +1,14 @@
-# A Makefile for simple lex and yacc examples
+# # A Makefile for simple lex and yacc examples
 
-# Comment out the proper lines below according to the scanner and
-# parser generators available in your system
+# # Comment out the proper lines below according to the scanner and
+# # parser generators available in your system
 
 LEX = lex
 YACC = yacc -d
 # LEX = flex 
 # YACC = bison -d
 
-# We assume that your C-compiler is called gcc
+# # We assume that your C-compiler is called gcc
 
 CC = gcc
 

@@ -1,0 +1,49 @@
+PROJ=moment
+LEX = lex
+YACC = yacc -d
+# LEX = flex 
+# YACC = bison -d
+ifeq ($(IOS), 1)
+    ARCH=armv7
+    DEVICE=OS
+    CC_FLAGS=-arch $(ARCH)
+    CFLAGS_FLAGS=-mcpu=cortex-a8 -marm
+else
+    ARCH=x86_64
+    CC_FLAGS=-arch $(ARCH)
+    DEVICE=Simulator
+endif
+
+DEVROOT=/Applications/Xcode.app/Contents/Developer
+SDKROOT=${DEVROOT}/Platforms/iPhone$(DEVICE).platform/Developer/SDKs/iPhone$(DEVICE)9.2.sdk
+CC=$(DEVROOT)/usr/bin/gcc $(CC_FLAGS)
+LD=$(CC)
+CFLAGS=-isysroot ${SDKROOT} -Iheaders $(CFLAGS_FLAGS)
+LDFLAGS=-isysroot ${SDKROOT} -Wl, -syslibroot ${SDKROOT}
+
+SRC=$(wildcard *.c)
+OBJS=$(patsubst %.c,%.o,$(SRC))
+DEPS=
+
+LIBDIR=$(shell pwd)/libs
+LDLIBS=$(patsubst %, $(DIR)/lib%.a, $(DEPS))
+
+all:$(ARCH)-$(PROJ).a
+
+
+$(ARCH)-$(PROJ).a: $(OBJS)
+	@echo $(LDLIBS) $(OBJS)
+	ar rcs $@ $(OBJS)
+	ranlib $@
+
+.PHONY: lipo
+lipo:
+	lipo -create -arch armv7 armv7-$(PROJ).a -arch x86_64 x86_64-$(PROJ).a -output libs/$(PROJ).a
+
+clean:
+	rm -f $(OBJS)
+
+
+.PHONY: realclean
+realclean: clean
+	rm *.a libs/*.a lex.yy.c *.tab.*  *.output *.gch *.exe
