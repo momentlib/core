@@ -8,6 +8,11 @@ ifeq ($(IOS), 1)
     DEVICE=OS
     CC_FLAGS=-arch $(ARCH)
     CFLAGS_FLAGS=-mcpu=cortex-a8 -marm
+else ifeq ($(IOS), 2)
+    ARCH=arm64
+    DEVICE=OS
+    CC_FLAGS=-arch $(ARCH)
+    # CFLAGS_FLAGS=-mcpu=cortex-a8 -marm    
 else
     ARCH=x86_64
     CC_FLAGS=-arch $(ARCH)
@@ -38,7 +43,8 @@ $(ARCH)-$(PROJ).a: $(OBJS)
 
 .PHONY: lipo
 lipo:
-	lipo -create -arch armv7 armv7-$(PROJ).a -arch x86_64 x86_64-$(PROJ).a -output libs/$(PROJ).a
+	lipo -create armv7-$(PROJ).a arm64-$(PROJ).a x86_64-$(PROJ).a -output libs/$(PROJ).a	
+	# lipo -create -arch armv7 armv7-$(PROJ).a -arch x86_64 x86_64-$(PROJ).a -output libs/$(PROJ).a
 
 clean:
 	rm -f $(OBJS)

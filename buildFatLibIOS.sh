@@ -4,4 +4,6 @@ make -f IOSMakeFile clean;
 make -f IOSMakeFile;
 make -f IOSMakeFile clean;
 make -f IOSMakeFile IOS=1;
+make -f IOSMakeFile clean;
+make -f IOSMakeFile IOS=2;
 make -f IOSMakeFile lipo;
